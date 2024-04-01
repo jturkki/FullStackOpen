@@ -1,0 +1,11 @@
+sequenceDiagram
+  participant browser
+  participant server
+
+  browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+  (browser sends an JSON type data with the POST)
+  activate server
+  (server adds the JSON data and responds with 201 created)
+  deactivate server
+
+  browser renders the JSON into the existing page
