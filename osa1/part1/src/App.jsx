@@ -1,34 +1,60 @@
-const Hello = (props) => {
-  console.log(props)
+import { useState } from "react"
+
+const History = (props) => {
+  if (props.allClikcs.length === 0) {
+    return (
+      <div>
+        the app is used by pressing the buttons
+      </div>
+    )
+  }
   return (
     <div>
-      <p>Hello {props.name}, you are {props.age} years old</p>
+      button press history: {props.allClikcs.join(' ')}
     </div>
   )
 }
 
-const Footer = () => {
-  return (
-    <div>
-      greeting app created by 
-      <a href="https://github.com/mluukkai">mluukkai</a>
-    </div>
-  )
-}
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
+  </button>
+)
 
 
 const App = () => {
-  const friends = [
-    { name: 'Leevi', age: 4 },
-    { name: 'Venla', age: 10 },
-  ]
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClikcs, setAll] = useState([])  
 
-  return (
-    <div>
-      <p>{friends[0].name} {friends[0].age}</p>
-      <p>{friends[1].name} {friends[1].age} </p>
-    </div>
-  )
+
+  const handleLeftClick = () => {
+  setAll(allClikcs.concat('L'))
+  const updatedLeft = left + 1
+  setLeft(updatedLeft)
 }
+
+const handleRightClick = () => {
+  setAll(allClikcs.concat('R'))
+  const updatedRight = right +1
+  setRight(updatedRight)
+}
+
+
+return (
+  <div>
+    <div>
+      {left}
+      <Button handleClick={handleLeftClick} text='left'/>
+
+      <Button handleClick={handleRightClick} text='right' />
+      {right}
+
+      <History allClikcs={allClikcs} />
+    </div>
+  </div>
+)
+}
+
 
 export default App
