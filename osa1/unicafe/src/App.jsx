@@ -7,6 +7,7 @@ const Header = (props) => {
   )
 }
 
+
 const Button = ({ handleClick, text }) => {
   console.log(handleClick, text)
   return (
@@ -16,12 +17,17 @@ const Button = ({ handleClick, text }) => {
   )
 }
 
+
 const StatisticLine = (props) => {
   console.log('StatisticLine props', props)
   return (
-  <p>{props.text} {props.value} </p>
-  )
+  <tr>
+    <td>{props.text}</td>
+    <td> {props.value}</td>
+  </tr>
+ )
 }
+
 
 const Statistics = (props) => { 
   console.log(props)
@@ -40,15 +46,20 @@ const Statistics = (props) => {
 
   return (
     <div>
-    <StatisticLine text= 'Good' value = {props.good} />
-    <StatisticLine text= 'Neutral' value = {props.neutral} />
-    <StatisticLine text= 'Bad' value = {props.bad} />
-    <StatisticLine text= 'All' value = {allClicks} />
-    <StatisticLine text= 'Average' value = {(props.good - props.bad)/allClicks} />
-    <StatisticLine text= 'Positive' value = {positive} />
+      <table>
+        <tbody>         
+          <StatisticLine text= 'Good' value = {props.good} />
+          <StatisticLine text= 'Neutral' value = {props.neutral} /> 
+          <StatisticLine text= 'Bad' value = {props.bad} /> 
+          <StatisticLine text= 'All' value = {allClicks} /> 
+          <StatisticLine text= 'Average' value = {(props.good - props.bad)/allClicks} /> 
+          <StatisticLine text= 'Positive' value = {positive} />
+        </tbody>
+      </table>
     </div>
   )
 }
+
 
 const App = () => {
  
@@ -56,7 +67,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   
-
+  
   const handleGoodClick = () => {
     const updatedGood = good +1
     console.log('updatedGood', updatedGood)    
