@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Filter =({ newFilter, handleFilterChange}) => {
 
@@ -48,18 +49,26 @@ const PersonForm =({ addPerson, newName, handleNameChange, newNumber, handleNumb
   }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '080 123456' },
-    { name: 'Jyri Turkki', number: '040000000'},
-    { name: 'Hesus Hoo', number: '55332-2334'},
-    { name: 'Javier Bee', number: '777777777'}
-  ]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
 
+  const hook = () =>{
+    console.log('effect')
+    
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fullfilled')
+        setPersons(response.data)
+      })
+  }
 
+  useEffect(hook, [])
+  console.log('render', persons.length, 'persons')
+  
 
   const addPerson = (event) => {
     event.preventDefault()
