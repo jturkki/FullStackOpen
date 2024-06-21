@@ -23,17 +23,27 @@
     {
       "id": "dd7b",
       "content": "toinen uusi",
-      "important": true
+      "important": false
     },
     {
       "id": "262c",
       "content": "taas",
-      "important": true
+      "important": false
     },
     {
       "id": "0f41",
       "content": "a new note...",
       "important": true
+    },
+    {
+      "id": "ff77",
+      "content": "a new note...",
+      "important": false
+    },
+    {
+      "id": "1e92",
+      "content": "",
+      "important": false
     }
   ]
 }

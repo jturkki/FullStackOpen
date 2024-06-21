@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
+import ErrorMessage from './components/ErrorMessage'
 
 
 const Filter =({ newFilter, handleFilterChange}) => {
@@ -57,6 +59,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [notification, setNotification] =  useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)  
+  
+  
 
   const hook = () =>{
     console.log('effect')
@@ -86,12 +92,17 @@ const App = () => {
     console.log('duplicateName', duplicateName)
 
     if (!duplicateName) {
+    
       personService
         .create(personObject)
         .then(addedPerson => {
           setPersons(persons.concat(addedPerson))
           setNewName('')
           setNewNumber('')
+          setNotification(`Added ${addedPerson.name} `)
+          setTimeout(() => {
+            setNotification(null)
+          },5000)
         })
 
       
@@ -100,12 +111,25 @@ const App = () => {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         
         console.log('duplicateName.id', duplicateName.id)
-        
+      
         personService
           .updateNumber(duplicateName.id, personObject)
           .then(updatedPerson => {
             setPersons(persons.map(p => p.id !== updatedPerson.id ? p : updatedPerson))
             setNewNumber('')
+            setNotification(`Updated ${updatedPerson.name} `)
+            setTimeout(() => {
+              setNotification(null)
+            },5000)
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Information of ${duplicateName.name} has already been removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            },5000)
+            setPersons(persons.filter(n => n.id !== duplicateName.id))
           })
       }
       setNewName('')
@@ -121,6 +145,10 @@ const App = () => {
       .deletePerson(id)
       .then(deletedPerson => {
         setPersons(persons.filter(n => n.id !== id))
+        setNotification(`Deleted ${deletedPerson.name} `)
+            setTimeout(() => {
+              setNotification(null)
+            },5000)
       })
     }    
   }
@@ -154,6 +182,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification} />
+      <ErrorMessage message={errorMessage} />
 
       <Filter newFilter = {newFilter}
               handleFilterChange = {handleFilterChange} />
