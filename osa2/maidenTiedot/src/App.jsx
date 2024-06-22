@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Filter from './components/Filter'
 import Listing from './components/Listing'
+import weatherService from './components/Weather'
 
 
 function App() {
   const [filter, setFilter] = useState('')
   const [allCountries, setAllCountries] = useState([])
   const [country, setCountry] = useState('')
+  
 
   
   
@@ -46,7 +48,8 @@ function App() {
               handleFilterChange = {handleFilterChange} />
 
       <Listing countriesToShow={countriesToShow}
-               selectThis={selectThis} />
+               selectThis={selectThis}
+               weatherService= {weatherService} />
       
     
     </div>
